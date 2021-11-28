@@ -35,6 +35,7 @@ namespace LearningPortal
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddTransient<ILearningRepository, MsSqlRepository>();
             services.AddControllersWithViews();
         }
 

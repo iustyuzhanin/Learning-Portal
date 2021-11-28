@@ -16,7 +16,7 @@ namespace LearningPortal.Models
 
         [Required]
         [Display(Name = "Роль")]
-        public IdentityRole Role { get; set; }
+        public string Role { get; set; }
 
         [Display(Name = "Курсы")]
         public List<Course> Courses { get; set; }

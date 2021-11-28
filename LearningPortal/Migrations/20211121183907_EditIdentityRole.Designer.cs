@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearningPortal.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211115082918_AddTablesStudentTeacher")]
-    partial class AddTablesStudentTeacher
+    [Migration("20211121183907_EditIdentityRole")]
+    partial class EditIdentityRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

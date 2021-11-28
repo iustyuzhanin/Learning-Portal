@@ -26,6 +26,28 @@
                         </li>
                     </ul>
                 </div>
+
+                @if (!User?.Identity.IsAuthenticated ?? false)
+                {
+                    <div class="navbar-collapse collapse d-flex flex-row-reverse">
+                        <a class="form-inline my-2 my-lg-0 btn btn-outline-info" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="navbar-collapse collapse d-flex flex-row-reverse">
+                        <a class="form-inline my-2 my-lg-0 btn btn-outline-danger" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="form-inline my-2 my-lg-0 nav-link text-info" asp-area="" asp-controller="Admin" asp-action="Index">@User.Identity.Name</a>
+                        }
+                        else
+                        {
+                            <a class="form-inline my-2 my-lg-0 nav-link text-info" asp-area="" asp-controller="Admin" asp-action="Profile" asp-route-name="@User.Identity.Name">@User.Identity.Name</a>
+                        }
+
+                    </div>
+                }
             </div>
         </nav>
     </header>

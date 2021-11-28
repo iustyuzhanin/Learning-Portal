@@ -1,0 +1,55 @@
+﻿@model AppUserRoleModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Роли</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Создать роль</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Роль</th>
+        <th>Пользователи</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Roles.Any())
+    {
+        <tr>
+            <td colspan="3">нет ролей</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var role in Model.Roles)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    @foreach (var user in Model.Users)
+                    {
+                        if (role.Name == user.Role)
+                        {
+                            <div>@user.UserName</div>
+                        }
+
+                    }
+                </td>
+                <td>
+                    <a class="text-success" asp-action="Edit" asp-route-id="@role.Id">Изменить</a> |
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@role.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index" asp-controller="Admin">Назад</a>
+</div>
