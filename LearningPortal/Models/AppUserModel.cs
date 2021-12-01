@@ -14,7 +14,6 @@ namespace LearningPortal.Models
         [Display(Name = "ФИО")]
         public string FullName { get; set; }
 
-        [Required]
         [Display(Name = "Роль")]
         public string Role { get; set; }
 

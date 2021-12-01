@@ -24,7 +24,6 @@ namespace LearningPortal.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
         [Display(Name = "Роль")]
         public string Role { get; set; }
 

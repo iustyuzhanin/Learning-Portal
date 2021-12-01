@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<LearningPortal.Models.AppUserModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Пользователи";
 }
 
-<h1>Пользователи</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a class="btn btn-primary" asp-action="Create">Создать пользователя</a>
@@ -62,3 +62,7 @@
 
     </tbody>
 </table>
+
+<div>
+    <a asp-controller="Home" asp-action="Index">Назад</a>
+</div>

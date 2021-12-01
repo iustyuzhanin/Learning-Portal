@@ -62,13 +62,13 @@ namespace LearningPortal.Controllers
                 {
                     UserName = model.Name,
                     Email = model.Email,
-                    Role = model.Role,
+                    //Role = model.Role,
                     FullName = model.FullName
                 };
 
                 IdentityResult resultCreate = await _userManager.CreateAsync(user, model.Password);
-                IdentityResult resultAddToRole = await _userManager.AddToRoleAsync(user, model.Role);
-                if (resultCreate.Succeeded && resultAddToRole.Succeeded)
+                //IdentityResult resultAddToRole = await _userManager.AddToRoleAsync(user, model.Role);
+                if (resultCreate.Succeeded /*&& resultAddToRole.Succeeded*/)
                 {
                     return RedirectToAction("Index");
                 }
@@ -78,10 +78,10 @@ namespace LearningPortal.Controllers
                     {
                         ModelState.AddModelError("", error.Description);
                     }
-                    foreach (var error in resultAddToRole.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                    //foreach (var error in resultAddToRole.Errors)
+                    //{
+                    //    ModelState.AddModelError("", error.Description);
+                    //}
                 }
             }
             return View(model);
@@ -98,7 +98,7 @@ namespace LearningPortal.Controllers
                 Name = user.UserName,
                 FullName = user.FullName,
                 Email = user.Email,
-                Role = user.Role
+                //Role = user.Role
             };
             
             return View(userEdit);
@@ -114,14 +114,14 @@ namespace LearningPortal.Controllers
 
                 user.UserName = model.Name;
                 user.Email = model.Email;
-                user.Role = model.Role;
+                //user.Role = model.Role;
                 user.FullName = model.FullName;
 
                 IdentityResult resultEdit = await _userManager.UpdateAsync(user);
-                IdentityResult resultAddToRole = await _userManager.AddToRoleAsync(user, model.Role);
+                //IdentityResult resultAddToRole = await _userManager.AddToRoleAsync(user, model.Role);
                 await _context.SaveChangesAsync();
 
-                if (resultEdit.Succeeded && resultAddToRole.Succeeded)
+                if (resultEdit.Succeeded /*&& resultAddToRole.Succeeded*/)
                 {
                     return RedirectToAction("Index");
                 }

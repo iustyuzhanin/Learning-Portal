@@ -19,11 +19,11 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Course" asp-action="Index">Курсы</a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>*@
                     </ul>
                 </div>
 
@@ -31,6 +31,7 @@
                 {
                     <div class="navbar-collapse collapse d-flex flex-row-reverse">
                         <a class="form-inline my-2 my-lg-0 btn btn-outline-info" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>
+                        <a class="form-inline my-2 my-lg-0 nav-link text-info" asp-area="" asp-controller="Account" asp-action="Registration">Регистрация</a>
                     </div>
                 }
                 else
@@ -43,7 +44,7 @@
                         }
                         else
                         {
-                            <a class="form-inline my-2 my-lg-0 nav-link text-info" asp-area="" asp-controller="Admin" asp-action="Profile" asp-route-name="@User.Identity.Name">@User.Identity.Name</a>
+                            <a class="form-inline my-2 my-lg-0 nav-link text-info" asp-area="" asp-controller="Account" asp-action="Personal" asp-route-name="@User.Identity.Name">@User.Identity.Name</a>
                         }
 
                     </div>

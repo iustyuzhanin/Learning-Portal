@@ -1,0 +1,46 @@
+﻿@model LearningPortal.Models.AppUserModel
+
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@*<nav class="navbar navbar-expand-lg navbar-light" style="background: tan;">
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Профиль</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Мои курсы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Прогресс</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div>
+    @Html.Partial("PersonalPartialView", @Model)
+</div>*@
+
+<ul class="nav nav-tabs">
+    <li class="active"><a class="nav-link active" data-toggle="tab" href="#profile">Профиль</a></li>
+    <li><a class="nav-link" data-toggle="tab" href="#course">Мои курсы</a></li>
+    <li><a class="nav-link" data-toggle="tab" href="#fortschritt">Прогресс</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="profile" class="tab-pane active">
+        <p>@Html.Partial("PersonalPartialViewProfile", @Model)</p>
+    </div>
+    <div id="course" class="tab-pane fade">
+        <p>Text 1</p>
+    </div>
+    <div id="fortschritt" class="tab-pane fade">
+        <p>Text 2</p>
+    </div>
+
+</div>
+
