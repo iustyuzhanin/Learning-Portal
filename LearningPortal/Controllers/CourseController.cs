@@ -21,5 +21,10 @@ namespace LearningPortal.Controllers
             var сourses = _context.Courses.ToList();
             return View(сourses);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace LearningPortal.Domains
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Категория")]
         public string Name { get; set; }
 
     }

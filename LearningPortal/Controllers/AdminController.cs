@@ -153,5 +153,6 @@ namespace LearningPortal.Controllers
 
             return View(user);
         }
+
     }
 }

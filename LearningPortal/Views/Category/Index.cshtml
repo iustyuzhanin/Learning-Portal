@@ -1,0 +1,37 @@
+﻿@model IEnumerable<LearningPortal.Domains.Category>
+
+@{
+    ViewData["Title"] = "Категории";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Создать категорию</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Категория
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => category.Name)
+            </td>
+            <td>
+                <a class="text-success" asp-action="Edit" asp-route-id="@category.Id">Изменить</a> |
+                <a class="text-danger" asp-action="Delete" asp-route-id="@category.Id">Удалить</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index" asp-controller="Admin">Назад</a>
+</div>
