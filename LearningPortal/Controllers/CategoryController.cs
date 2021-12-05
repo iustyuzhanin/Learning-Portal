@@ -57,5 +57,29 @@ namespace LearningPortal.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            return View(category);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Category model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = await _context.Categories.FindAsync(model.Id);
+                category.Name = model.Name;
+
+                _context.Categories.Update(category);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+                    
+            }
+            return View(model);
+        }
+
     }
 }
