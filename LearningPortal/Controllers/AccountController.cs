@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.DataAccessLayer;
@@ -49,10 +50,10 @@ namespace LearningPortal.Controllers
             {
                 AppUserModel user = new AppUserModel()
                 {
-                    UserName = model.Name,
-                    Email = model.Email,
+                    UserName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower()),
+                    Email = model.Email.ToLower(),
                     //Role = model.Role,
-                    FullName = model.FullName
+                    FullName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.FullName.ToLower())
                 };
 
                 IdentityResult resultCreate = await _userManager.CreateAsync(user, model.Password);
@@ -101,10 +102,10 @@ namespace LearningPortal.Controllers
             {
                 var user = await _userManager.FindByIdAsync(model.Id);
 
-                user.UserName = model.Name;
-                user.Email = model.Email;
+                user.UserName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower());
+                user.Email = model.Email.ToLower();
                 //user.Role = model.Role;
-                user.FullName = model.FullName;
+                user.FullName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.FullName.ToLower());
 
                 IdentityResult resultEdit = await _userManager.UpdateAsync(user);
                 //IdentityResult resultAddToRole = await _userManager.AddToRoleAsync(user, model.Role);

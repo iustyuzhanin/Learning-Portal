@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.DataAccessLayer;
@@ -33,7 +34,7 @@ namespace LearningPortal.Controllers
             {
                 Category category = new Category()
                 {
-                    Name = model.Name
+                    Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower())
                 };
 
                 _context.Categories.Add(category);
@@ -70,7 +71,7 @@ namespace LearningPortal.Controllers
             if (ModelState.IsValid)
             {
                 var category = await _context.Categories.FindAsync(model.Id);
-                category.Name = model.Name;
+                category.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower());
 
                 _context.Categories.Update(category);
                 await _context.SaveChangesAsync();

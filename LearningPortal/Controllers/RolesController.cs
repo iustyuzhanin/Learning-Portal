@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.Models;
@@ -36,7 +37,7 @@ namespace LearningPortal.Controllers
         {
             IdentityRole role = new IdentityRole
             {
-                Name = model.RoleName
+                Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.RoleName.ToLower())
             };
 
             if (ModelState.IsValid)
@@ -82,7 +83,7 @@ namespace LearningPortal.Controllers
             if (ModelState.IsValid)
             {
                 var role = await _roleManager.FindByIdAsync(model.Id);
-                role.Name = model.Name;
+                role.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower());
 
                 IdentityResult resultEdit = await _roleManager.UpdateAsync(role);
 
