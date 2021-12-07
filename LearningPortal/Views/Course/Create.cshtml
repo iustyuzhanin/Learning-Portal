@@ -1,12 +1,11 @@
 ﻿@model LearningPortal.Domains.Course
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создание курса";
 }
 
-<h1>Create</h1>
+<h4>@ViewData["Title"]</h4>
 
-<h4>Course</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,29 +17,50 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <br>
+                <select class="btn btn-secondary" asp-for="Category" asp-items="ViewBag.Categories"></select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Chapter" class="control-label"></label>
+                <input asp-for="Chapter" class="form-control" />
+                <span asp-validation-for="Chapter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Program" class="control-label"></label>
-                <input asp-for="Program" class="form-control" />
+                <textarea asp-for="Program" class="form-control"></textarea>
                 <span asp-validation-for="Program" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="Image" type="file" name="Image" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+            <label asp-for="Teacher" class="control-label"></label>
+            <input asp-for="Teacher" class="form-control" />
+            <span asp-validation-for="Teacher" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Students" class="control-label"></label>
+            <input asp-for="Students" class="form-control" />
+            <span asp-validation-for="Students" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

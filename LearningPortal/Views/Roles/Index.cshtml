@@ -6,16 +6,14 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a class="btn btn-primary" asp-action="Create">Создать роль</a>
-</p>
-
-<table class="table">
+<table class="table table-hover">
     <thead>
     <tr>
         <th>Роль</th>
         <th>Пользователи</th>
-        <th></th>
+        <th>
+            <a asp-action="Create" class="btn btn-outline-primary"><i class="far fa-plus-square"></i> Создать роль</a>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -42,8 +40,8 @@
                     }
                 </td>
                 <td>
-                    <a class="text-success" asp-action="Edit" asp-route-id="@role.Id">Изменить</a> |
-                    <a class="text-danger" asp-action="Delete" asp-route-id="@role.Id">Удалить</a>
+                    <a class="text-success" asp-action="Edit" asp-route-id="@role.Id"><i class="fa fa-marker fa-lg"></i></a>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@role.Id"><i class="fa fa-trash-alt fa-lg"></i></a>
                 </td>
             </tr>
         }

@@ -12,25 +12,33 @@ namespace LearningPortal.Domains
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Название курса")]
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Категория")]
         public Category Category { get; set; }
 
         [Required]
+        [Display(Name = "Раздел")]
         public Chapter Chapter { get; set; }
 
         [Required]
+        [Display(Name = "Описание")]
         public string Description { get; set; }
 
         [Required]
+        [Display(Name = "Программа")]
         public string Program { get; set; }
 
         [Required]
+        [Display(Name = "Изображение курса")]
         public string Image { get; set; }
 
+        [Display(Name = "Преподаватель")]
         public Teacher Teacher { get; set; }
 
+        [Display(Name = "Студенты")]
         public List<Student> Students { get; set; }
 
 

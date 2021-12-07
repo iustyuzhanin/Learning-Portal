@@ -19,6 +19,13 @@ namespace LearningPortal.Controllers
         private RoleManager<IdentityRole> _roleManager;
         private ApplicationDbContext _context;
 
+        public AdminController(UserManager<AppUserModel> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _context = context;
+        }
+
         /// <summary>
         /// Список ролей
         /// </summary>
@@ -34,14 +41,12 @@ namespace LearningPortal.Controllers
             return positions;
         }
 
-        public AdminController(UserManager<AppUserModel> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        public IActionResult Index()
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _context = context;
+            return View();
         }
 
-        public IActionResult Index()
+        public IActionResult Users()
         {
             var users = _userManager.Users.ToList();
             return View(users);
@@ -154,6 +159,7 @@ namespace LearningPortal.Controllers
 
             return View(user);
         }
+
 
     }
 }

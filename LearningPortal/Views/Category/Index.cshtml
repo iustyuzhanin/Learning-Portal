@@ -6,16 +6,15 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a class="btn btn-primary" asp-action="Create">Создать категорию</a>
-</p>
-<table class="table">
+<table class="table table-hover">
     <thead>
     <tr>
         <th>
             Категория
         </th>
-        <th></th>
+        <th>
+            <a asp-action="Create" class="btn btn-outline-primary"><i class="far fa-plus-square"></i> Создать категорию</a>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -25,8 +24,8 @@
                 @Html.DisplayFor(modelItem => category.Name)
             </td>
             <td>
-                <a class="text-success" asp-action="Edit" asp-route-id="@category.Id">Изменить</a> |
-                <a class="text-danger" asp-action="Delete" asp-route-id="@category.Id">Удалить</a>
+                <a class="text-success" asp-action="Edit" asp-route-id="@category.Id"><i class="fa fa-marker fa-lg"></i></a>
+                <a class="text-danger" asp-action="Delete" asp-route-id="@category.Id"><i class="fa fa-trash-alt fa-lg"></i></a>
             </td>
         </tr>
     }

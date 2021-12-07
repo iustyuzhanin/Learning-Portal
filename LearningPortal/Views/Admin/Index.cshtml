@@ -1,69 +1,17 @@
 ﻿@model IEnumerable<LearningPortal.Models.AppUserModel>
 
 @{
-    ViewData["Title"] = "Пользователи";
+    ViewData["Title"] = "Admin";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Создать пользователя</a>
-    <a class="btn btn-primary" asp-action="Index" asp-controller="Roles">Роли пользователей</a>
-    <a class="btn btn-primary" asp-action="Index" asp-controller="Category">Категории</a>
-</p>
-<table class="table table-hover">
-    <thead class="thead-light">
-    <tr>
-        <th>
-            Логин
-        </th>
-        <th>
-            ФИО
-        </th>
-        <th>
-            Роль
-        </th>
-        <th>
-            Почта
-        </th>
-        <th>
-
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @if (!Model.Any())
-    {
-        <tr><td>Нет пользователей</td></tr>
-    }
-    else
-    {
-        foreach (AppUserModel user in Model)
-        {
-            <tr>
-                <th>
-                    <a class="text-primary" asp-action="Profile" asp-route-name="@user.UserName">@user.UserName</a>
-                </th>
-                <td>
-                    @user.FullName
-                </td>
-                <td>
-                    @user.Role
-                </td>
-                <td>
-                    @user.Email
-                </td>
-                <td>
-                    <a class="text-success" asp-action="Edit" asp-route-id="@user.Id">Изменить</a> |
-                    <a class="text-danger" asp-action="Delete" asp-route-id="@user.Id">Удалить</a>
-                </td>
-            </tr>
-        }
-    }
-
-    </tbody>
-</table>
-
+    <p><a class="btn btn-primary" asp-action="Users" asp-controller="Admin"><i class="fas fa-users"></i> Пользователи</a></p> 
+    <p><a class="btn btn-primary" asp-action="Index" asp-controller="Roles"><i class="far fa-address-card"></i> Роли пользователей</a></p>
+    <p><a class="btn btn-primary" asp-action="Index" asp-controller="Course"><i class="fas fa-book-open"></i> Курсы</a></p>
+<p><a class="btn btn-primary" asp-action="Index" asp-controller="Category"><i class="fab fa-ethereum"></i> Категории</a></p>
+    
 <div>
     <a asp-controller="Home" asp-action="Index">Назад</a>
 </div>
