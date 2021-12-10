@@ -1,0 +1,68 @@
+﻿@model LearningPortal.Domains.Course
+
+@{
+    ViewData["Title"] = "Создание курса";
+}
+
+<h4>@ViewData["Title"]</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CourseCreate" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <br>
+                <select class="btn btn-secondary" asp-for="Category" asp-items="ViewBag.Categories"></select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="Chapter" class="control-label"></label>
+                    <input asp-for="Chapter" class="form-control" />
+                    <span asp-validation-for="Chapter" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Program" class="control-label"></label>
+                <textarea asp-for="Program" class="form-control"></textarea>
+                <span asp-validation-for="Program" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" type="file" name="ImageFile" accept="image/jpeg,image/png,image/jpg" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="Teacher" class="control-label"></label>
+                    <input asp-for="Teacher" class="form-control" />
+                    <span asp-validation-for="Teacher" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Students" class="control-label"></label>
+                    <input asp-for="Students" class="form-control" />
+                    <span asp-validation-for="Students" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Courses" asp-controller="Admin">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

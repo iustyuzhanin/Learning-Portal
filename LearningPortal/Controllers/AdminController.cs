@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.DataAccessLayer;
+using LearningPortal.Domains;
 using LearningPortal.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -18,12 +21,14 @@ namespace LearningPortal.Controllers
         private UserManager<AppUserModel> _userManager;
         private RoleManager<IdentityRole> _roleManager;
         private ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public AdminController(UserManager<AppUserModel> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        public AdminController(UserManager<AppUserModel> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         /// <summary>
@@ -41,6 +46,21 @@ namespace LearningPortal.Controllers
             return positions;
         }
 
+        /// <summary>
+        /// Список категорий
+        /// </summary>
+        public List<Category> listCategory()
+        {
+            List<Category> categories = new List<Category>();
+
+            foreach (var category in _context.Categories)
+            {
+                categories.Add(category);
+            }
+
+            return categories;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -50,6 +70,93 @@ namespace LearningPortal.Controllers
         {
             var сourses = _context.Courses.ToList();
             return View(сourses);
+        }
+
+        public async Task<IActionResult> CourseEdit(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+            return View(course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CourseEdit(Course model)
+        {
+            if (ModelState.IsValid)
+            {
+                var course = await _context.Courses.FindAsync(model.Id);
+
+                course.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower());
+                //course.Category = null;
+                //course.Chapter = null;
+                course.Description = model.Description;
+                course.Program = model.Program;
+                //course.ImageName = model.ImageName;
+                //course.Teacher = null;
+                //course.Students = null;
+                
+                _context.Courses.Update(course);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Courses","Admin");
+
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> CourseDelete(int id)
+        {
+            var course = await _context.Courses.FindAsync(id);
+
+            if (course != null)
+            {
+                _context.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Courses","Admin");
+        }
+
+        public IActionResult CourseCreate()
+        {
+            ViewBag.Categories = new SelectList(listCategory());
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CourseCreate(Course model)
+        {
+            ViewBag.Categories = new SelectList(listCategory());
+
+            if (ModelState.IsValid)
+            {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                //string fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
+                string extension = Path.GetExtension(model.ImageFile.FileName);
+                model.ImageName = model.Name + DateTime.Now.ToString("yyMMdd-hms") + extension;
+                string path = Path.Combine(wwwRootPath + "/images/", model.ImageName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(fileStream);
+                }
+
+                Course course = new Course
+                {
+                    Name = model.Name,
+                    Category = model.Category,
+                    //Chapter = model.Chapter,
+                    Description = model.Description,
+                    Program = model.Program,
+                    ImageName = model.ImageName,
+                    //Teacher = model.Teacher,
+                    //Students = model.Students
+                };
+
+                _context.Courses.Add(course);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Courses","Admin");
+
+            }
+            return View(model);
         }
 
         public IActionResult Users()
@@ -82,7 +189,7 @@ namespace LearningPortal.Controllers
                 //IdentityResult resultAddToRole = await _userManager.AddToRoleAsync(user, model.Role);
                 if (resultCreate.Succeeded /*&& resultAddToRole.Succeeded*/)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Users", "Admin");
                 }
                 else
                 {
@@ -135,7 +242,7 @@ namespace LearningPortal.Controllers
 
                 if (resultEdit.Succeeded /*&& resultAddToRole.Succeeded*/)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Users", "Admin");
                 }
                 else
                 {
@@ -156,7 +263,7 @@ namespace LearningPortal.Controllers
             {
                 await _userManager.DeleteAsync(user);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Users","Admin");
         }
 
         public async Task<IActionResult> Profile(string name)
