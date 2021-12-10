@@ -13,7 +13,7 @@
             Категория
         </th>
         <th>
-            <a asp-action="Create" class="btn btn-outline-primary"><i class="far fa-plus-square"></i> Создать категорию</a>
+            <a asp-action="Create" class="btn btn-outline-success"><i class="fas fa-plus"></i> Создать категорию</a>
         </th>
     </tr>
     </thead>
@@ -24,7 +24,7 @@
                 @Html.DisplayFor(modelItem => category.Name)
             </td>
             <td>
-                <a class="text-success" asp-action="Edit" asp-route-id="@category.Id"><i class="fa fa-marker fa-lg"></i></a>
+                <a class="text-primary" asp-action="Edit" asp-route-id="@category.Id"><i class="fa fa-marker fa-lg"></i></a>
                 <a class="text-danger" asp-action="Delete" asp-route-id="@category.Id"><i class="fa fa-trash-alt fa-lg"></i></a>
             </td>
         </tr>

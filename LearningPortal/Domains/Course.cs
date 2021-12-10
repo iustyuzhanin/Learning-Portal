@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace LearningPortal.Domains
 {
@@ -15,11 +17,9 @@ namespace LearningPortal.Domains
         [Display(Name = "Название курса")]
         public string Name { get; set; }
 
-        [Required]
         [Display(Name = "Категория")]
         public Category Category { get; set; }
 
-        [Required]
         [Display(Name = "Раздел")]
         public Chapter Chapter { get; set; }
 
@@ -31,9 +31,12 @@ namespace LearningPortal.Domains
         [Display(Name = "Программа")]
         public string Program { get; set; }
 
-        [Required]
         [Display(Name = "Изображение курса")]
-        public string Image { get; set; }
+        public string ImageName { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Загрузить файл")]
+        public IFormFile ImageFile { get; set; }
 
         [Display(Name = "Преподаватель")]
         public Teacher Teacher { get; set; }

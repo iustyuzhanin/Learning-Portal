@@ -12,7 +12,7 @@
         <th>Роль</th>
         <th>Пользователи</th>
         <th>
-            <a asp-action="Create" class="btn btn-outline-primary"><i class="far fa-plus-square"></i> Создать роль</a>
+            <a asp-action="Create" class="btn btn-outline-success"><i class="fas fa-plus"></i> Создать роль</a>
         </th>
     </tr>
     </thead>
@@ -40,7 +40,7 @@
                     }
                 </td>
                 <td>
-                    <a class="text-success" asp-action="Edit" asp-route-id="@role.Id"><i class="fa fa-marker fa-lg"></i></a>
+                    <a class="text-primary" asp-action="Edit" asp-route-id="@role.Id"><i class="fa fa-marker fa-lg"></i></a>
                     <a class="text-danger" asp-action="Delete" asp-route-id="@role.Id"><i class="fa fa-trash-alt fa-lg"></i></a>
                 </td>
             </tr>

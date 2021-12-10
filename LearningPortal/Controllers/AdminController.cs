@@ -46,6 +46,12 @@ namespace LearningPortal.Controllers
             return View();
         }
 
+        public IActionResult Courses()
+        {
+            var сourses = _context.Courses.ToList();
+            return View(сourses);
+        }
+
         public IActionResult Users()
         {
             var users = _userManager.Users.ToList();
