@@ -85,12 +85,23 @@ namespace LearningPortal.Controllers
             {
                 var course = await _context.Courses.FindAsync(model.Id);
 
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                //string fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
+                string extension = Path.GetExtension(model.ImageFile.FileName);
+                model.ImageName = model.Name + DateTime.Now.ToString("yyMMdd-hms") + extension;
+                string path = Path.Combine(wwwRootPath + "/images/", model.ImageName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(fileStream);
+                }
+
                 course.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower());
                 //course.Category = null;
                 //course.Chapter = null;
                 course.Description = model.Description;
                 course.Program = model.Program;
-                //course.ImageName = model.ImageName;
+                course.ImageName = model.ImageName;
                 //course.Teacher = null;
                 //course.Students = null;
                 
