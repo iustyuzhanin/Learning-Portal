@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.DataAccessLayer;
 using LearningPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
@@ -15,15 +16,36 @@ namespace LearningPortal.Controllers
     public class AccountController : Controller
     {
         private UserManager<AppUserModel> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
         private SignInManager<AppUserModel> _signInManager;
         private ApplicationDbContext _context;
 
-        public AccountController(UserManager<AppUserModel> userManager, SignInManager<AppUserModel> signInManager, ApplicationDbContext context)
+        public AccountController(UserManager<AppUserModel> userManager, SignInManager<AppUserModel> signInManager, ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _roleManager = roleManager;
         }
+
+        /// <summary>
+        /// Список ролей
+        /// </summary>
+        public List<IdentityRole> listRole()
+        {
+            List<IdentityRole> positions = new List<IdentityRole>();
+
+            foreach (var role in _roleManager.Roles)
+            {
+                if (role.Name != "Admin")
+                {
+                    positions.Add(role);
+                }
+            }
+
+            return positions;
+        }
+
 
         public IActionResult Index()
         {
@@ -39,20 +61,21 @@ namespace LearningPortal.Controllers
 
         public IActionResult Registration()
         {
+            ViewBag.Positions = new SelectList(listRole());
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Registration(AppUserCreateModel model)
         {
-            //ViewBag.Positions = new SelectList(listRole());
+            ViewBag.Positions = new SelectList(listRole());
             if (ModelState.IsValid)
             {
                 AppUserModel user = new AppUserModel()
                 {
                     UserName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower()),
                     Email = model.Email.ToLower(),
-                    //Role = model.Role,
+                    Role = model.Role,
                     FullName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.FullName.ToLower())
                 };
 
@@ -131,13 +154,19 @@ namespace LearningPortal.Controllers
             return View();
         }
 
+
+        public IActionResult LoginStudent()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Login(AppUserLoginModel model)
+        public async Task<IActionResult> LoginStudent(AppUserLoginModel model)
         {
             if (ModelState.IsValid)
             {
                 AppUserModel user = await _userManager.FindByNameAsync(model.Login);
-                if (user != null)
+                if (user != null && (user.Role == "Student" || user.Role == "Admin"))
                 {
                     await _signInManager.SignOutAsync();
                     SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
@@ -147,10 +176,44 @@ namespace LearningPortal.Controllers
                     }
                     ModelState.AddModelError("Error", "Invalid user login or password");
                 }
+                else
+                {
+                    ModelState.AddModelError("Error", "Invalid user login or password");
+                }
             }
             return View(model);
         }
 
+        public IActionResult LoginTeacher()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginTeacher(AppUserLoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUserModel user = await _userManager.FindByNameAsync(model.Login);
+                if (user!=null && (user.Role=="Teacher" || user.Role == "Admin"))
+                {
+                    await _signInManager.SignOutAsync();
+                    SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    ModelState.AddModelError("Error", "Invalid user login or password");
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", "Invalid user login or password");
+                }
+            }
+            return View(model);
+        }
+
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

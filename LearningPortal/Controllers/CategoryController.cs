@@ -6,10 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using LearningPortal.DataAccessLayer;
 using LearningPortal.Domains;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace LearningPortal.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private ApplicationDbContext _context;

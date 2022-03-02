@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LearningPortal.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private UserManager<AppUserModel> _userManager;
@@ -85,16 +85,16 @@ namespace LearningPortal.Controllers
             {
                 var course = await _context.Courses.FindAsync(model.Id);
 
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                //string fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
-                string extension = Path.GetExtension(model.ImageFile.FileName);
-                model.ImageName = model.Name + DateTime.Now.ToString("yyMMdd-hms") + extension;
-                string path = Path.Combine(wwwRootPath + "/images/", model.ImageName);
+                //string wwwRootPath = _hostEnvironment.WebRootPath;
+                ////string fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
+                //string extension = Path.GetExtension(model.ImageFile.FileName);
+                //model.ImageName = model.Name + DateTime.Now.ToString("yyMMdd-hms") + extension;
+                //string path = Path.Combine(wwwRootPath + "/images/", model.ImageName);
 
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await model.ImageFile.CopyToAsync(fileStream);
-                }
+                //using (var fileStream = new FileStream(path, FileMode.Create))
+                //{
+                //    await model.ImageFile.CopyToAsync(fileStream);
+                //}
 
                 course.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower());
                 //course.Category = null;
@@ -176,6 +176,18 @@ namespace LearningPortal.Controllers
             return View(users);
         }
 
+        public IActionResult Students()
+        {
+            var students = _userManager.Users.Where(student => student.Role == "Student");
+            return View(students);
+        }
+
+        public IActionResult Teachers()
+        {
+            var teachers = _userManager.Users.Where(teacher => teacher.Role == "Teacher");
+            return View(teachers);
+        }
+
         public IActionResult Create()
         {
             ViewBag.Positions = new SelectList(listRole());
@@ -192,7 +204,7 @@ namespace LearningPortal.Controllers
                 {
                     UserName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Name.ToLower()),
                     Email = model.Email.ToLower(),
-                    //Role = model.Role,
+                    Role = model.Role,
                     FullName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.FullName.ToLower())
                 };
 
