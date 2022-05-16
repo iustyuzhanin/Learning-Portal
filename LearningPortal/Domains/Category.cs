@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace LearningPortal.Domains
 {
@@ -13,6 +9,5 @@ namespace LearningPortal.Domains
         [Required]
         [Display(Name = "Категория")]
         public string Name { get; set; }
-
     }
 }
